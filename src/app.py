@@ -7,11 +7,11 @@ from sentence_transformers import SentenceTransformer
 es_client = Elasticsearch('http://localhost:9200')
 
 #default
-index_name_global='podcasts_multi-qa-minilm-l6-cos-v1__dims_384' 
-model_name = 'multi-qa-MiniLM-L6-cos-v1'
-model_embed = SentenceTransformer(model_name)
+#index_name_global='podcasts_multi-qa-minilm-l6-cos-v1__dims_384' 
+#model_name = 'multi-qa-MiniLM-L6-cos-v1'
+#model_embed = SentenceTransformer(model_name)
 
-def elastic_search(query, index_name = index_name_global):
+def elastic_search(query, index_name = 'podcasts_multi-qa-minilm-l6-cos-v1__dims_384'):
     search_query = {
         "size": 3,
         "query": {
@@ -36,7 +36,7 @@ def elastic_search(query, index_name = index_name_global):
     
     return result_docs
 
-def elastic_search_knn(field, vector,index_name = index_name_global):
+def elastic_search_knn(field, vector,index_name):
     knn = {
         "field": field,
         "query_vector": vector,
@@ -61,8 +61,9 @@ def elastic_search_knn(field, vector,index_name = index_name_global):
 
     return result_docs
 
-def description_vector_knn(query,model_embed=model_embed,index_name=index_name_global):
+def description_vector_knn(query,model_embed,index_name):
     print("index_name",index_name)
+
     v_q = model_embed.encode(query)
     return elastic_search_knn('description_vector', v_q, index_name)
 
@@ -104,19 +105,25 @@ with searchExploration:
         st.write("[read more about models](%s)" % 'https://sbert.net/docs/sentence_transformer/pretrained_models.html')
 
         st.write("You selected:", selected_model)
-        if selected_model == ":rainbow[multi-qa-mpnet-base-dot-v1]":
+        index_name_global = ''
+        model_name = ''
+        model_embed = None
+        if selected_model == "***multi-qa-mpnet-base-dot-v1***":
             index_name_global='podcasts_multi-qa-mpnet-base-dot-v1__dims_768' 
             model_name = 'multi-qa-mpnet-base-dot-v1'
+            model_embed = SentenceTransformer(model_name)
 
         if selected_model == "***multi-qa-MiniLM-L6-cos-v1***":
             index_name_global='podcasts_multi-qa-minilm-l6-cos-v1__dims_384' 
             model_name = 'multi-qa-MiniLM-L6-cos-v1'
+            model_embed = SentenceTransformer(model_name)
     
-        if selected_model == "***multi-qa-distilbert-cos-v1***":
+        if selected_model == ":rainbow[multi-qa-distilbert-cos-v1]":
             index_name_global= 'podcasts_multi-qa-distilbert-cos-v1__dims_768' 
             model_name = 'multi-qa-distilbert-cos-v1'
+            model_embed = SentenceTransformer(model_name)
 
-        model_embed = SentenceTransformer(model_name)
+        print(len(model_embed.encode("This is a simple sentence")))
 
         podcast_keywords_from_user = st.text_input('**Enter description**')
         keybased_recommendations = description_vector_knn(podcast_keywords_from_user,model_embed=model_embed,index_name=index_name_global)
