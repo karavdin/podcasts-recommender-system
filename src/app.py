@@ -85,19 +85,20 @@ with siteHeader:
 
 with searchExploration:
     user_choice = st.selectbox('**How would you like to get podcast recommendations?**',
-       options = ('Select an option.....','Key-based search', 'Semantic Search (hybrid)'))
+       options = ('Select an option.....','Key-based search', 'Semantic Search'))
 
     if user_choice == 'Key-based search':
         podcast_keywords_from_user = st.text_input('**Enter keywords**')
         keybased_recommendations = elastic_search(podcast_keywords_from_user)
         st.write(recommend_docs_to_text(keybased_recommendations))
-    if user_choice == 'Semantic Search (hybrid)':
+    if user_choice == 'Semantic Search':
         selected_model = st.radio(
             "Select the model",
-            [":rainbow[multi-qa-mpnet-base-dot-v1]", "***multi-qa-MiniLM-L6-cos-v1***"],
+            ["***multi-qa-mpnet-base-dot-v1***", "***multi-qa-MiniLM-L6-cos-v1***", ":rainbow[multi-qa-distilbert-cos-v1]"],
             captions=[
-                "Best Semantich Search performance",
-                "Quick and efficient"
+                "Big and slow",
+                "Small and quick",
+                "Best Search performance"
             ],
         )
         st.write("[read more about models](%s)" % 'https://sbert.net/docs/sentence_transformer/pretrained_models.html')
@@ -110,6 +111,10 @@ with searchExploration:
         if selected_model == "***multi-qa-MiniLM-L6-cos-v1***":
             index_name_global='podcasts_multi-qa-minilm-l6-cos-v1__dims_384' 
             model_name = 'multi-qa-MiniLM-L6-cos-v1'
+    
+        if selected_model == "***multi-qa-distilbert-cos-v1***":
+            index_name_global= 'podcasts_multi-qa-distilbert-cos-v1__dims_768' 
+            model_name = 'multi-qa-distilbert-cos-v1'
 
         model_embed = SentenceTransformer(model_name)
 
