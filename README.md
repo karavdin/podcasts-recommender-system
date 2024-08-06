@@ -67,14 +67,15 @@ TBA
 The web UI for the system was done on [Streamlit](https://podcasts-recommendation-system-using-tfidf-and-transformers.streamlit.app/)(app.py in src folder)
  
 
-![My Image](streamlit.jpeg)
+![My Image](streamlit.png)
 
 
 ## Future Work
 
 * Enable reqular data updates
-* Recommend podcast episodes (granular recommendations)
-* Try collaborative filtering since the user reviews data is also available
+* Sort out multi-language support
+* Recommend podcast episodes (granular recommendations, user history for context)
+* Collaborative filtering (with user review data)
 
 
 ## Authors
