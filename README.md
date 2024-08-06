@@ -1,7 +1,7 @@
 # Podcast recommendation system 
 by Anastasia Karavdina
 
-APP LINK : [Podcasts Recommendation Engine](https://podcasts-recommendation-system-using-tfidf-and-transformers.streamlit.app/)
+APP LINK : [Podcasts Recommendation Engine](https://XXX.streamlit.app/)
 
 
 ## Overview 
@@ -41,38 +41,25 @@ Much of the initial exploration of the dataset was done in the notebook **EDA.ip
 
 ## Modelling
 
-The first step was to tokenize the podcasts description based on word-embeddings techniques :
+Elastic search is utilize for key-based search and 
 
 ### TF_IDF
-The word-embeddings were generated based on the 500-600(this can be tuned) most commonly occurring words in the dataset, excluding stopwords.
+TBA
 
 
 ### Sentence transformer model : [all-* ](https://www.sbert.net/docs/pretrained_models.html)
 
-These models are trained on all available training data (more than 1 billion training pairs) and are designed as general purpose models. This model helps in extracting the semantic similarities from corpus. The embedding generation process is in [model.py](https://github.com/pjeena/Podcasts-recommender-system-using-sentence-transformers/blob/main/src/model.py) under the src folder.
+TBA
 
 
 ## Recommendations
 
-Cosine-similarity technique was used to recommend new podcasts based on the user input. A user can input query in two ways :
-
-***
-* Enter a podcast(for ex Lex Fridman Podcast) which he/she has listened before
-* Enter a general theme or description like health, technology and machine learning, climate, language learning etc.
-
-When a user enters a query, an averaged word-embedding vector is generated and compared with the embeddings of the dataset using cosine-similarities to generate similarity scores. The top n(5 , 10 or 20....) podcasts are recommended based on the similarity scores. 
+TBA
 
 
 ## Model Evaluation
 
-Unlike a supervised learning model, there is no real way of validating the recommendations. Another way could be to formulate a hypothesis that a good embedding would give similarity scores from different categories as less similar compared to podcasts from within a category. The higher tha number of podcasts pairs which satisfy this hypothesis, the better will be the recommendations. The hypothesis can be tested as follows ::
-
-***
-* Sample n number of podcasts from each category.
-* Choose any two categories, let's say X and Y and calculate the cosine-similarities between every podcast in X with every podcast in Y (similarites across categories), as well as every podcast in  X with the remaining podcasts in X (similarities within a category).
-* Compare the **similarites across categories** and **similarities within a category** using a one tailed t-test to verify that the **similarites across categories** is significantly lower than **similarities within a category**.
-
-After performing the above testing, it was observed that approximately ~90% of the times, **similarities across categories** were lower than **similarities within a category** which is quite good.
+TBA
 
 
 ## Deployment
@@ -108,31 +95,17 @@ Project Organization
     ├── Makefile           <- Makefile with commands like `make data` or `make train`
     ├── README.md          <- The top-level README for developers using this project.
     ├── data
-    │   ├── external       <- Data from third party sources.
-    │   ├── interim        <- Intermediate data that has been transformed.
-    │   ├── processed      <- The final, canonical data sets for modeling.
+    │   ├── processed      <- The final data sets for index
     │   └── raw            <- The original, immutable data dump.
+    │   └── extract_podcasts.py            <- script to extract podcast data from itunes
     │
-    ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
-    │
-    ├── models             <- Trained and serialized models, model predictions, or model summaries
-    │
-    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         the creator's initials, and a short `-` delimited description, e.g.
-    │                         `1.0-jqp-initial-data-exploration`.
-    │
-    ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
-    │
-    ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-    │   └── figures        <- Generated graphics and figures to be used in reporting
+    ├── notebooks          <- Jupyter notebooks for EDA, data indexing, Model Evaluation, etc
     │
     ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
     │                         generated with `pip freeze > requirements.txt`
     │
-    ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
     ├── src                <- Source code for use in this project.
        ├── __init__.py    <- Makes src a Python module
-       │
-       |------          <- Scripts for the project : preprocessing, feature engineering, modelling, predictions etc.
+       |-- app.py         <- Script for streamlit app
       
 
