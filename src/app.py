@@ -27,7 +27,7 @@ def elastic_search(query, index_name = 'podcasts_multi-qa-minilm-l6-cos-v1__dims
         }
     }
 
-    response = es_client.search(index=index_name_global, body=search_query)
+    response = es_client.search(index=index_name, body=search_query)
     
     result_docs = []
     
